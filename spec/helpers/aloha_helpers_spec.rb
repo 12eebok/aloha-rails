@@ -51,6 +51,18 @@ describe "Aloha::Rails::Helpers" do
 
   end
 
+  context "aloha_stylesheet_tag" do
+
+    it "returns a stylesheet tag" do
+      aloha_stylesheet_tag.should match(%r{<link.+rel="stylesheet" type="text/css">})
+    end
+
+    it "stylesheet href is '/assets/aloha/css/aloha.css'" do
+      aloha_stylesheet_tag.should match(%r{href="/assets/aloha/css/aloha.css"})
+    end
+
+  end
+
   context "aloha_setup" do
 
     it "returns a javascript tag" do
@@ -60,10 +72,11 @@ describe "Aloha::Rails::Helpers" do
   end
 
   context "aloha!" do
-    it "returns aloha_script_tag and aloha_setup" do
+    it "returns aloha_script_tag, aloha_stylesheet_tag and aloha_setup" do
       self.should_receive(:aloha_script_tag).with(:extra_plugins => ['foo']) { "<script>" } 
+      self.should_receive(:aloha_stylesheet_tag) { "<stylesheet>" } 
       self.should_receive(:aloha_setup) { "<setup>" }
-      aloha!(extra_plugins: ['foo']).should eq("<script><setup>")
+      aloha!(extra_plugins: ['foo']).should eq("<script><stylesheet><setup>")
     end
   end
 end
