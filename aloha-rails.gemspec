@@ -19,4 +19,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency(%q<jquery-rails>, ["~> 2.0"])
 
   gem.add_development_dependency %q<rspec-rails>, ["~> 2.8"]
+  gem.add_development_dependency %q<rake>, ["~> 0.9"]
 end
