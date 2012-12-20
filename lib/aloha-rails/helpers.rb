@@ -23,16 +23,16 @@ module Aloha
         content_tag :script, nil, options
       end
 
-      def aloha_stylesheet_tag
+      def aloha_stylesheet_tag(options={})
         options = {
           :rel => 'stylesheet',
           :type => 'text/css',
           :href => '/assets/aloha/css/aloha.css'
-        }
+        }.update(options)
         content_tag :link, nil, options
       end
 
-      def aloha_setup
+      def aloha_setup(options={})
         js = <<-JS
         Aloha.ready(function() { 
           Aloha.require(Aloha.settings.modules, function(Aloha, $) {
@@ -45,7 +45,7 @@ module Aloha
       end
 
       def aloha!(options={})
-        aloha_script_tag(options) + aloha_stylesheet_tag + aloha_setup
+        aloha_script_tag(options[:script]) + aloha_stylesheet_tag(options[:stylesheet]) + aloha_setup(options[:setup])
       end
     end
 

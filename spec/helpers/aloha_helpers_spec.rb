@@ -23,6 +23,12 @@ describe "Aloha::Rails::Helpers" do
       end
     end
 
+    context "with custom src" do
+      it "script src is 'https://raw.github.com/Skalar/aloha-rails/master/vendor/assets/javascripts/aloha/lib/aloha.js'" do
+        aloha_script_tag(:src => "https://raw.github.com/Skalar/aloha-rails/master/vendor/assets/javascripts/aloha/lib/aloha.js").should match(%r{src="https://raw.github.com/Skalar/aloha-rails/master/vendor/assets/javascripts/aloha/lib/aloha.js"})
+      end
+    end
+
     context "plugins" do
 
       context "when passing :plugins" do
@@ -49,6 +55,12 @@ describe "Aloha::Rails::Helpers" do
 
     end
 
+    context "with other custom option" do
+      it "script other-option is 'other-option-value'" do
+        aloha_script_tag('other-option' => "other-option-value").should match(%r{other-option="other-option-value"})
+      end
+    end
+
   end
 
   context "aloha_stylesheet_tag" do
@@ -57,8 +69,22 @@ describe "Aloha::Rails::Helpers" do
       aloha_stylesheet_tag.should match(%r{<link.+rel="stylesheet" type="text/css">})
     end
 
-    it "stylesheet href is '/assets/aloha/css/aloha.css'" do
-      aloha_stylesheet_tag.should match(%r{href="/assets/aloha/css/aloha.css"})
+    context "without options" do
+      it "stylesheet href is '/assets/aloha/css/aloha.css'" do
+        aloha_stylesheet_tag.should match(%r{href="/assets/aloha/css/aloha.css"})
+      end
+    end
+
+    context "with custom href" do
+      it "stylesheet href is 'https://raw.github.com/Skalar/aloha-rails/master/vendor/assets/javascripts/aloha/css/aloha.css'" do
+        aloha_stylesheet_tag(:href => "https://raw.github.com/Skalar/aloha-rails/master/vendor/assets/javascripts/aloha/css/aloha.css").should match(%r{href="https://raw.github.com/Skalar/aloha-rails/master/vendor/assets/javascripts/aloha/css/aloha.css"})
+      end
+    end
+
+    context "with other custom option" do
+      it "stylesheet other-option is 'other-option-value'" do
+        aloha_stylesheet_tag('other-option' => "other-option-value").should match(%r{other-option="other-option-value"})
+      end
     end
 
   end
@@ -72,11 +98,29 @@ describe "Aloha::Rails::Helpers" do
   end
 
   context "aloha!" do
-    it "returns aloha_script_tag, aloha_stylesheet_tag and aloha_setup" do
-      self.should_receive(:aloha_script_tag).with(:extra_plugins => ['foo']) { "<script>" } 
-      self.should_receive(:aloha_stylesheet_tag) { "<stylesheet>" } 
-      self.should_receive(:aloha_setup) { "<setup>" }
-      aloha!(extra_plugins: ['foo']).should eq("<script><stylesheet><setup>")
+
+    context "without options" do
+      it "returns aloha_script_tag, aloha_stylesheet_tag and aloha_setup" do
+        self.should_receive(:aloha_script_tag) { "<script>" } 
+        self.should_receive(:aloha_stylesheet_tag) { "<stylesheet>" } 
+        self.should_receive(:aloha_setup) { "<setup>" }
+        aloha!.should eq("<script><stylesheet><setup>")
+      end
     end
+
+    context "with some options" do
+      it "returns aloha_script_tag, aloha_stylesheet_tag and aloha_setup" do
+        self.should_receive(:aloha_script_tag).with( 'some-script-option' => "some-script-option-value" ) { "<script>" } 
+        self.should_receive(:aloha_stylesheet_tag).with( 'some-stylesheet-option' => "some-stylesheet-option-value" ) { "<stylesheet>" } 
+        self.should_receive(:aloha_setup).with( 'some-setup-option' => "some-setup-option-value" ) { "<setup>" }
+        aloha!(
+          :script => { 'some-script-option' => "some-script-option-value" },
+          :stylesheet => { 'some-stylesheet-option' => "some-stylesheet-option-value" },
+          :setup => { 'some-setup-option' => "some-setup-option-value" }
+        ).should eq("<script><stylesheet><setup>")
+      end
+    end
+
   end
+
 end
