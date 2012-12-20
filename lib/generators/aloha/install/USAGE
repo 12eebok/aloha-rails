@@ -1,9 +1,11 @@
 Description:
-    Installs Aloha configuration files (initializer and js config).
+    Installs Aloha configuration files (initializer and js config) and
+    integrates Aloha to the assets pipeline.
 
 Example:
     rails generate aloha:install
 
-    This will create:
+    This will create config files (edit them later):
         app/assets/javascripts/aloha-config.coffee
         config/initializers/aloha.rb
+    ...and will change application.css and application.js assets pipeline files to use Aloha.
