@@ -60,10 +60,22 @@ describe "Aloha::Rails::Helpers" do
   end
 
   context "aloha!" do
-    it "returns aloha_script_tag and aloha_setup" do
-      self.should_receive(:aloha_script_tag).with(:extra_plugins => ['foo']) { "<script>" } 
-      self.should_receive(:aloha_setup) { "<setup>" }
-      aloha!(extra_plugins: ['foo']).should eq("<script><setup>")
+
+    context "without options" do
+      it "returns aloha_script_tag and aloha_setup" do
+        self.should_receive(:aloha_script_tag).with({}) { "<script>" } 
+        self.should_receive(:aloha_setup) { "<setup>" }
+        aloha!.should eq("<script><setup>")
+      end
     end
+
+    context "with some options" do
+      it "returns aloha_script_tag and aloha_setup" do
+        self.should_receive(:aloha_script_tag).with(:extra_plugins => ['foo']) { "<script>" } 
+        self.should_receive(:aloha_setup) { "<setup>" }
+        aloha!(extra_plugins: ['foo']).should eq("<script><setup>")
+      end
+    end
+
   end
 end
