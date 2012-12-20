@@ -24,7 +24,6 @@ Edit these files to configure aloha:
 
 To setup aloha, add this in the &lt;head&gt; section of your template:
 
-    = javascript_include_tag 'application'
     = aloha!
 
 Finally, to make things editable, add a .editable-(long|short)-text to the HTML element:

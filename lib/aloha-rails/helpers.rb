@@ -3,13 +3,13 @@ module Aloha
   module Rails
 
     module Helpers
-      def aloha_stylesheet_tag
+      def aloha_config_tag
         options = {
-          :rel => 'stylesheet',
-          :type => 'text/css',
-          :href => '/assets/aloha/css/aloha.css'
+          :type => 'text/javascript',
+          :src => '/assets/aloha-config.js'
         }
-        content_tag :link, nil, options
+
+        content_tag :script, nil, options
       end
 
       def aloha_script_tag(options={})
@@ -32,6 +32,15 @@ module Aloha
         content_tag :script, nil, options
       end
 
+      def aloha_stylesheet_tag
+        options = {
+          :rel => 'stylesheet',
+          :type => 'text/css',
+          :href => '/assets/aloha/css/aloha.css'
+        }
+        content_tag :link, nil, options
+      end
+
       def aloha_setup
         js = <<-JS
         Aloha.ready(function() { 
@@ -45,7 +54,7 @@ module Aloha
       end
 
       def aloha!(options={})
-        aloha_script_tag(options) + aloha_stylesheet_tag + aloha_setup
+        aloha_config_tag + aloha_script_tag(options) + aloha_stylesheet_tag + aloha_setup
       end
     end
 
